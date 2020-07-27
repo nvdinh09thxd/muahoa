@@ -23,13 +23,13 @@ public class XoaHoaController extends HttpServlet {
 		int idHoa = 0;
 		try {
 			idHoa = Integer.parseInt(request.getParameter("id"));
-		}catch(NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			response.sendRedirect(request.getContextPath() + "/muahoa/PageNotFound.jsp");
 			idHoa = -1;
 		}
-		if(idHoa!=-1) {
+		if (idHoa != -1) {
 			Hoa itemHoa = HoaDAO.getItemHoa(idHoa);
-			String filePath = request.getServletContext().getRealPath("")+"files\\"+itemHoa.getHinhAnh();
+			String filePath = request.getServletContext().getRealPath("") + "files\\" + itemHoa.getHinhAnh();
 			File file = new File(filePath);
 			file.delete();
 			if (HoaDAO.delItem(idHoa) > 0) {

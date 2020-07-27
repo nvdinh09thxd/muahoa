@@ -27,7 +27,7 @@ public class SuaHoaController extends HttpServlet {
 		int idHoa = 0;
 		try {
 			idHoa = Integer.parseInt(request.getParameter("id"));
-		}catch(NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			response.sendRedirect(request.getContextPath() + "/muahoa/PageNotFound.jsp");
 			return;
 		}
@@ -39,20 +39,24 @@ public class SuaHoaController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		response.setContentType("text/html");
+		response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
+		
 		int id = Integer.parseInt(request.getParameter("id"));
 		String tenHoa = request.getParameter("ten");
 		int id_loaihoa = Integer.parseInt(request.getParameter("loaihoa"));
 		int soLuong = Integer.parseInt(request.getParameter("soluong"));
 		String moTa = request.getParameter("mota");
-		
-		//delete picture
+
+		// delete picture
 		Hoa itemHoa1 = HoaDAO.getItemHoa(id);
-		String filePath1 = request.getServletContext().getRealPath("")+"files\\"+itemHoa1.getHinhAnh();
+		String filePath1 = request.getServletContext().getRealPath("") + "files\\" + itemHoa1.getHinhAnh();
 		File file = new File(filePath1);
 		file.delete();
 		// handle upload
 		Part filePart = request.getPart("hinhanh");
-		String fileName = getName(filePart);
+		String fileName = filePart.getSubmittedFileName();
 		String appPath = request.getServletContext().getRealPath("");
 		String dirPath = appPath + "files";
 		File saveDir = new File(dirPath);
@@ -65,20 +69,12 @@ public class SuaHoaController extends HttpServlet {
 		fileName = portal + "_" + time + "." + extra;
 		String filePath = dirPath + File.separator + fileName;
 		filePart.write(filePath);
-		
+
 		Hoa itemHoa = new Hoa(id, tenHoa, soLuong, fileName, moTa, id_loaihoa);
-		if(HoaDAO.editItem(itemHoa)>0) {
+		if (HoaDAO.editItem(itemHoa) > 0) {
 			response.getWriter().print("Thanh cong");
-		}else {
+		} else {
 			response.getWriter().print("That bai");
 		}
-	}
-	private String getName(final Part part) {
-		for (String content : part.getHeader("content-disposition").split(";")) {
-			if (content.trim().startsWith("filename")) {
-				return content.substring(content.indexOf('=') + 1).trim().replace("\"", "");
-			}
-		}
-		return null;
 	}
 }

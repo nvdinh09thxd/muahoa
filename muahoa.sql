@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th7 18, 2020 lúc 12:39 PM
+-- Thời gian đã tạo: Th7 27, 2020 lúc 12:05 PM
 -- Phiên bản máy phục vụ: 10.1.32-MariaDB
--- Phiên bản PHP: 7.2.5
+-- Phiên bản PHP: 7.1.17
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -30,12 +30,34 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `hoa` (
   `id` int(11) NOT NULL,
-  `ten_hoa` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `so_luong` int(11) NOT NULL,
-  `hinh_anh` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
-  `mo_ta` text COLLATE utf8_unicode_ci NOT NULL,
-  `id_loahoa` int(11) NOT NULL
+  `tenhoa` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `soluong` int(11) NOT NULL,
+  `hinhanh` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `mota` text COLLATE utf8_unicode_ci NOT NULL,
+  `idloaihoa` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `loaihoa`
+--
+
+CREATE TABLE `loaihoa` (
+  `id` int(11) NOT NULL,
+  `tenloaihoa` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `loaihoa`
+--
+
+INSERT INTO `loaihoa` (`id`, `tenloaihoa`) VALUES
+(1, 'Hoa Kỷ Niệm'),
+(2, 'Hoa Chúc Mừng'),
+(3, 'Hoa Cưới'),
+(4, 'Hoa dại'),
+(5, 'Hoa Hạnh Phúc');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -45,6 +67,13 @@ CREATE TABLE `hoa` (
 -- Chỉ mục cho bảng `hoa`
 --
 ALTER TABLE `hoa`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_loaihoa` (`idloaihoa`);
+
+--
+-- Chỉ mục cho bảng `loaihoa`
+--
+ALTER TABLE `loaihoa`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -56,6 +85,22 @@ ALTER TABLE `hoa`
 --
 ALTER TABLE `hoa`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT cho bảng `loaihoa`
+--
+ALTER TABLE `loaihoa`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- Các ràng buộc cho các bảng đã đổ
+--
+
+--
+-- Các ràng buộc cho bảng `hoa`
+--
+ALTER TABLE `hoa`
+  ADD CONSTRAINT `hoa_ibfk_1` FOREIGN KEY (`idloaihoa`) REFERENCES `loaihoa` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
