@@ -13,10 +13,10 @@
 
 			<div class="module-body">
 				<%
-					int id = 1;// = Integer.parseInt(request.getParameter("id"));
+					int id = Integer.parseInt(request.getParameter("id"));
 					String tenHoa = request.getParameter("ten");
-					int id_loaiHoa=2;// = Integer.parseInt(request.getParameter("loaihoa"));
-					int soLuong=2;// = Integer.parseInt(request.getParameter("soluong"));
+					int id_loaiHoa = Integer.parseInt(request.getParameter("loaihoa"));
+					int soLuong = Integer.parseInt(request.getParameter("soluong"));
 					String hinhAnh = request.getParameter("hinhanh");
 					String moTa = request.getParameter("mota");
 					Hoa itemHoa = (Hoa) request.getAttribute("itemHoa");

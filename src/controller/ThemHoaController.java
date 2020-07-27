@@ -31,7 +31,6 @@ public class ThemHoaController extends HttpServlet {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
-		System.out.println(request.getParameterNames());
 		int id = Integer.parseInt(request.getParameter("id"));
 		String tenHoa = request.getParameter("ten");
 		int id_loaihoa = Integer.parseInt(request.getParameter("loaihoa"));

@@ -22,7 +22,7 @@
 					</div>
 					<div>
 						<label>Tên hoa</label> 
-						<input type="text" id="ten" name="ten" value="123" class="input-medium" />
+						<input type="text" id="ten" name="ten" class="input-medium" />
 					</div>
 					<div>
 						<label>Loại hoa</label> 
@@ -41,7 +41,7 @@
 					</div>
 					<div>
 						<label>Số lượng</label> 
-						<input type="text" id="soluong" name="soluong" value="2" class="input-medium" />
+						<input type="text" id="soluong" name="soluong" class="input-medium" />
 					</div>
 					<div>
 						<label>Hình ảnh</label> 
@@ -49,7 +49,7 @@
 					</div>
 					<div>
 						<label>Mô tả</label>
-						<textarea rows="7" cols="90" id="mota" class="input-medium" name="mota">123</textarea>
+						<textarea rows="7" cols="90" id="mota" class="input-medium" name="mota"></textarea>
 					</div>
 					<fieldset>
 						<input class="submit-green" type="submit" value="Mua hoa" /> 
