@@ -23,6 +23,7 @@ public class ThemHoaController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		request.getRequestDispatcher("/muahoa/add.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -37,7 +38,7 @@ public class ThemHoaController extends HttpServlet {
 		String moTa = request.getParameter("mota");
 		// handle upload
 		Part filePart = request.getPart("hinhanh");
-		String fileName = getName(filePart);
+		String fileName = filePart.getSubmittedFileName();
 		String appPath = request.getServletContext().getRealPath("");
 		String dirPath = appPath + "files";
 		File saveDir = new File(dirPath);
@@ -57,14 +58,5 @@ public class ThemHoaController extends HttpServlet {
 		} else {
 			response.getWriter().println("That bai!");
 		}
-	}
-
-	private String getName(final Part part) {
-		for (String content : part.getHeader("content-disposition").split(";")) {
-			if (content.trim().startsWith("filename")) {
-				return content.substring(content.indexOf('=') + 1).trim().replace("\"", "");
-			}
-		}
-		return null;
 	}
 }

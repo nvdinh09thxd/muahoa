@@ -19,12 +19,12 @@ public class LoaiHoaDAO {
 	public static ArrayList<LoaiHoa> getListCat() {
 		ArrayList<LoaiHoa> listCat = new ArrayList<>();
 		conn = ConnectDBLibrary.getConnection();
-		String sql = "SELECT * FROM loai_hoa";
+		String sql = "SELECT * FROM loaihoa";
 		try {
 			st = conn.createStatement();
 			rs = st.executeQuery(sql);
 			while (rs.next()) {
-				LoaiHoa objCat = new LoaiHoa(rs.getInt("id"), rs.getString("ten_loaihoa"));
+				LoaiHoa objCat = new LoaiHoa(rs.getInt("id"), rs.getString("tenloaihoa"));
 				listCat.add(objCat);
 			}
 
@@ -38,13 +38,13 @@ public class LoaiHoaDAO {
 
 	public static LoaiHoa getItemCat(int id) {
 		conn = ConnectDBLibrary.getConnection();
-		String sql = "SELECT * FROM hoa JOIN loai_hoa on hoa.id_loaihoa=loai_hoa.id WHERE hoa.id=" + id;
+		String sql = "SELECT * FROM hoa JOIN loaihoa on hoa.idloaihoa=loaihoa.id WHERE hoa.id=" + id;
 		LoaiHoa ItemCat = null;
 		try {
 			st = conn.createStatement();
 			rs = st.executeQuery(sql);
 			while (rs.next()) {
-				ItemCat = new LoaiHoa(rs.getInt("loai_hoa.id"), rs.getString("ten_loaihoa"));
+				ItemCat = new LoaiHoa(rs.getInt("loaihoa.id"), rs.getString("tenloaihoa"));
 			}
 
 		} catch (SQLException e) {
@@ -58,7 +58,7 @@ public class LoaiHoaDAO {
 	public static int addItem(LoaiHoa item) {
 		int result = 0;
 		conn = ConnectDBLibrary.getConnection();
-		String sql = "INSERT INTO loai_hoa (ten_loaihoa) VALUES (?)";
+		String sql = "INSERT INTO loaihoa (tenloaihoa) VALUES (?)";
 		try {
 			pst = conn.prepareStatement(sql);
 			pst.setString(1, item.getTenLoaiHoa());

@@ -5,7 +5,7 @@
 <div class="container_12">
 	<div class="bottom-spacing">
 		<div class="float-left">
-			<a href="<%=request.getContextPath()%>/muahoa/add.jsp" class="button"> 
+			<a href="<%=request.getContextPath()%>/them-hoa" class="button"> 
 				<span>Thêm sản phẩm mới 
 					<img src="<%=request.getContextPath()%>/muahoa/images/plus-small.gif" alt="Thêm tin mới">
 				</span>
