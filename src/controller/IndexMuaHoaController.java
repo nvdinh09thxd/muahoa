@@ -16,7 +16,7 @@ public class IndexMuaHoaController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.sendRedirect(request.getContextPath() + "/muahoa/index.jsp");
+		request.getRequestDispatcher("muahoa/index.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

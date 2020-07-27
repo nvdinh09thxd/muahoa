@@ -13,7 +13,7 @@ public class ConnectDBLibrary {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			try {
-				conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/muahoa?useUnicode=yes&characterEncoding=UTF-8", "root", "");
+				conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/muahoa2?useUnicode=yes&characterEncoding=UTF-8", "root", "");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

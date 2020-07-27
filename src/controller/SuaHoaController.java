@@ -29,6 +29,7 @@ public class SuaHoaController extends HttpServlet {
 			idHoa = Integer.parseInt(request.getParameter("id"));
 		}catch(NumberFormatException e) {
 			response.sendRedirect(request.getContextPath() + "/muahoa/PageNotFound.jsp");
+			return;
 		}
 		Hoa itemHoa = HoaDAO.getItemHoa(idHoa);
 		request.setAttribute("itemHoa", itemHoa);

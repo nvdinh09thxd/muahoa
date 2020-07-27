@@ -23,6 +23,7 @@ public class ThemHoaController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		request.getRequestDispatcher("muahoa/add.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -30,6 +31,7 @@ public class ThemHoaController extends HttpServlet {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
+		System.out.println(request.getParameterNames());
 		int id = Integer.parseInt(request.getParameter("id"));
 		String tenHoa = request.getParameter("ten");
 		int id_loaihoa = Integer.parseInt(request.getParameter("loaihoa"));

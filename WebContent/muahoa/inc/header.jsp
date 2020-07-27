@@ -32,8 +32,8 @@
 					<div class="grid_12">
 						<div id="logo">
 							<ul id="nav">
-								<li><a href="<%=request.getContextPath() %>/muahoa/index.jsp">Trang chủ</a></li>
-								<li><a href="<%=request.getContextPath() %>/muahoa/add.jsp">Mua hoa</a></li>
+								<li><a href="<%=request.getContextPath() %>/mua-hoa">Trang chủ</a></li>
+								<li><a href="<%=request.getContextPath() %>/them-hoa">Mua hoa</a></li>
 								<li><a href="<%=request.getContextPath() %>/muahoa/themloaihoa.jsp">Thêm danh mục</a></li>
 								<li><a href="<%=request.getContextPath() %>/muahoa/list.jsp">Xem danh sách</a></li>
 							</ul>

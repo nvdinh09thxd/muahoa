@@ -22,7 +22,7 @@
 					</div>
 					<div>
 						<label>Tên hoa</label> 
-						<input type="text" id="ten" name="ten" class="input-medium" />
+						<input type="text" id="ten" name="ten" value="123" class="input-medium" />
 					</div>
 					<div>
 						<label>Loại hoa</label> 
@@ -41,15 +41,15 @@
 					</div>
 					<div>
 						<label>Số lượng</label> 
-						<input type="text" id="soluong" name="soluong" class="input-medium" />
+						<input type="text" id="soluong" name="soluong" value="2" class="input-medium" />
 					</div>
 					<div>
 						<label>Hình ảnh</label> 
-						<input type="file" value="" id="hinhanh" name="hinhanh" />
+						<input type="file" id="hinhanh" name="hinhanh" />
 					</div>
 					<div>
 						<label>Mô tả</label>
-						<textarea rows="7" cols="90" id="mota" class="input-medium" name="mota"></textarea>
+						<textarea rows="7" cols="90" id="mota" class="input-medium" name="mota">123</textarea>
 					</div>
 					<fieldset>
 						<input class="submit-green" type="submit" value="Mua hoa" /> 
@@ -74,7 +74,8 @@
 		if(id==""||ten==""||loaihoa==""||soluong==""||hinhanh==""||mota=="")
 			alert("Vui lòng nhập đầy đủ thông tin!");
 		else{
-			var fd = new FormData(document.getElementById("form"));
+			var formData = document.getElementById("form");
+			var fd = new FormData(formData);
 			$.ajax({
 				url: '<%=request.getContextPath()%>/them-hoa',
 				type : 'post',
