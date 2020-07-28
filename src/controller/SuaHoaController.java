@@ -28,7 +28,7 @@ public class SuaHoaController extends HttpServlet {
 		try {
 			idHoa = Integer.parseInt(request.getParameter("id"));
 		} catch (NumberFormatException e) {
-			response.sendRedirect(request.getContextPath() + "/muahoa/PageNotFound.jsp");
+			request.getRequestDispatcher("/muahoa/PageNotFound.jsp").forward(request, response);
 			return;
 		}
 		Hoa itemHoa = HoaDAO.getItemHoa(idHoa);
@@ -42,19 +42,21 @@ public class SuaHoaController extends HttpServlet {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
-		
+
 		int id = Integer.parseInt(request.getParameter("id"));
 		String tenHoa = request.getParameter("ten");
 		int id_loaihoa = Integer.parseInt(request.getParameter("loaihoa"));
 		int soLuong = Integer.parseInt(request.getParameter("soluong"));
+		float giaBan = Float.parseFloat(request.getParameter("giaban"));
 		String moTa = request.getParameter("mota");
 
-		// delete picture
-		Hoa itemHoa1 = HoaDAO.getItemHoa(id);
-		String filePath1 = request.getServletContext().getRealPath("") + "files\\" + itemHoa1.getHinhAnh();
-		File file = new File(filePath1);
+		// xóa ảnh cũ
+		Hoa itemHoa = HoaDAO.getItemHoa(id);
+		String filePath = request.getServletContext().getRealPath("") + "files\\" + itemHoa.getHinhAnh();
+		File file = new File(filePath);
 		file.delete();
-		// handle upload
+
+		// upload ảnh mới
 		Part filePart = request.getPart("hinhanh");
 		String fileName = filePart.getSubmittedFileName();
 		String appPath = request.getServletContext().getRealPath("");
@@ -67,14 +69,14 @@ public class SuaHoaController extends HttpServlet {
 		String extra = fileName.split("\\.")[1];
 		long time = System.currentTimeMillis();
 		fileName = portal + "_" + time + "." + extra;
-		String filePath = dirPath + File.separator + fileName;
+		filePath = dirPath + File.separator + fileName;
 		filePart.write(filePath);
 
-		Hoa itemHoa = new Hoa(id, tenHoa, soLuong, fileName, moTa, id_loaihoa);
+		itemHoa = new Hoa(id, tenHoa, soLuong, giaBan, fileName, moTa, id_loaihoa);
 		if (HoaDAO.editItem(itemHoa) > 0) {
-			response.getWriter().print("Thanh cong");
+			response.sendRedirect(request.getContextPath() + "/xem-hoa?msg=2");
 		} else {
-			response.getWriter().print("That bai");
+			request.getRequestDispatcher("/muahoa/edit.jsp?err=0").forward(request, response);
 		}
 	}
 }

@@ -5,28 +5,27 @@
 <%@ page import="model.dao.LoaiHoaDAO"%>
 
 <%@include file="inc/header.jsp"%>
-<script	src="<%=request.getContextPath()%>/muahoa/js/jquery-3.3.1.min.js"></script>
 <div class="container_12">
 	<div class="grid_12">
-
+	<p style="color: red;">${err}</p>
 		<div class="module">
 			<h2>
 				<span>Mua hoa</span>
 			</h2>
 
 			<div class="module-body">
-				<form action="javascript: void(0)" id="form">
+			<form action="<%=request.getContextPath()%>/them-hoa" method="post" enctype="multipart/form-data">
 					<div>
 						<label>ID hoa</label> 
-						<input type="text" id="id" name="id" class="input-medium" />
+						<input type="text" name="id" value="${idStr}" class="input-medium" />
 					</div>
 					<div>
 						<label>Tên hoa</label> 
-						<input type="text" id="ten" name="ten" class="input-medium" />
+						<input type="text" name="ten" value="${tenHoa}" class="input-medium" />
 					</div>
 					<div>
 						<label>Loại hoa</label> 
-						<select class="input-short" id="loaihoa" name="loaihoa">
+						<select class="input-short" name="loaihoa">
 							<%
 								ArrayList<LoaiHoa> listCat = LoaiHoaDAO.getListCat();
 									if (listCat != null) {
@@ -41,15 +40,19 @@
 					</div>
 					<div>
 						<label>Số lượng</label> 
-						<input type="text" id="soluong" name="soluong" class="input-medium" />
+						<input type="text" name="soluong" value="${soLuongStr}" class="input-medium" />
+					</div>
+					<div>
+						<label>Giá bán</label> 
+						<input type="text" name="giaban" value="${giaBanStr}" class="input-medium" />
 					</div>
 					<div>
 						<label>Hình ảnh</label> 
-						<input type="file" id="hinhanh" name="hinhanh" />
+						<input type="file" name="hinhanh" />
 					</div>
 					<div>
 						<label>Mô tả</label>
-						<textarea rows="7" cols="90" id="mota" class="input-medium" name="mota"></textarea>
+						<textarea rows="7" cols="90" class="input-medium" name="mota">${moTa}</textarea>
 					</div>
 					<fieldset>
 						<input class="submit-green" type="submit" value="Mua hoa" /> 
@@ -63,35 +66,4 @@
 </div>
 <div style="clear: both;"></div>
 
-<script type="text/javascript">
-	$('form').submit(function() {
-		var id = $("#id").val();
-		var ten = $("#ten").val();
-		var loaihoa = $("#loaihoa").val();
-		var soluong = $("#soluong").val();
-		var hinhanh = $("#hinhanh").val();
-		var mota = $("#mota").val();
-		if(id==""||ten==""||loaihoa==""||soluong==""||hinhanh==""||mota=="")
-			alert("Vui lòng nhập đầy đủ thông tin!");
-		else{
-			var formData = document.getElementById("form");
-			var fd = new FormData(formData);
-			$.ajax({
-				url: '<%=request.getContextPath()%>/them-hoa',
-				type : 'post',
-				cache : false,
-				data : fd,
-				dataType : 'text',
-				processData : false,
-		        contentType : false,
-				success : function(data) {
-					alert(data);
-				},
-				error : function() {
-					alert('Có lỗi xảy ra');
-				}
-			});
-		}
-	})
-</script>
 <%@include file="inc/footer.jsp"%>

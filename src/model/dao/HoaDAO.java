@@ -18,14 +18,15 @@ public class HoaDAO {
 
 	public static ArrayList<Hoa> getListHoa() {
 		conn = ConnectDBLibrary.getConnection();
-		String sql = "SELECT * FROM hoa INNER JOIN loaihoa on hoa.idloaihoa=loaihoa.id";
+		String sql = "SELECT * FROM hoa JOIN loaihoa ON hoa.id_loaihoa = loaihoa.id";
 		ArrayList<Hoa> listHoa = new ArrayList<>();
 		try {
 			st = conn.createStatement();
 			rs = st.executeQuery(sql);
 			while (rs.next()) {
-				Hoa ObjHoa = new Hoa(rs.getInt("id"), rs.getString("tenhoa"), rs.getInt("soluong"),
-						rs.getString("hinhanh"), rs.getString("mota"), rs.getInt("idloaihoa"));
+				Hoa ObjHoa = new Hoa(rs.getInt("id"), rs.getString("ten_hoa"), rs.getInt("so_luong"),
+						rs.getFloat("gia_ban"), rs.getString("hinh_anh"), rs.getString("mo_ta"),
+						rs.getInt("id_loaihoa"));
 				listHoa.add(ObjHoa);
 			}
 		} catch (SQLException e) {
@@ -38,19 +39,21 @@ public class HoaDAO {
 
 	public static Hoa getItemHoa(int id) {
 		conn = ConnectDBLibrary.getConnection();
-		String sql = "SELECT * FROM hoa WHERE id=" + id;
+		String sql = "SELECT * FROM hoa WHERE id = ?";
 		Hoa ItemHoa = null;
 		try {
-			st = conn.createStatement();
-			rs = st.executeQuery(sql);
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, id);
+			rs = pst.executeQuery();
 			if (rs.next()) {
-				ItemHoa = new Hoa(rs.getInt("id"), rs.getString("tenhoa"), rs.getInt("soluong"),
-						rs.getString("hinhanh"), rs.getString("mota"), rs.getInt("idloaihoa"));
+				ItemHoa = new Hoa(rs.getInt("id"), rs.getString("ten_hoa"), rs.getInt("so_luong"),
+						rs.getFloat("gia_ban"), rs.getString("hinh_anh"), rs.getString("mo_ta"),
+						rs.getInt("id_loaihoa"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			ConnectDBLibrary.close(rs, st, conn);
+			ConnectDBLibrary.close(rs, pst, conn);
 		}
 		return ItemHoa;
 	}
@@ -58,14 +61,15 @@ public class HoaDAO {
 	public static int delItem(int id) {
 		int result = 0;
 		conn = ConnectDBLibrary.getConnection();
-		String sql = "DELETE FROM hoa WHERE id=" + id;
+		String sql = "DELETE FROM hoa WHERE id = ?";
 		try {
-			st = conn.createStatement();
-			result = st.executeUpdate(sql);
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, id);
+			result = pst.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			ConnectDBLibrary.close(st, conn);
+			ConnectDBLibrary.close(pst, conn);
 		}
 		return result;
 	}
@@ -73,15 +77,16 @@ public class HoaDAO {
 	public static int addItem(Hoa hoa) {
 		int result = 0;
 		conn = ConnectDBLibrary.getConnection();
-		String sql = "INSERT INTO hoa VALUES (?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO hoa VALUES (?, ?, ?, ?, ?, ?, ?)";
 		try {
 			pst = conn.prepareStatement(sql);
 			pst.setInt(1, hoa.getId());
 			pst.setString(2, hoa.getTenHoa());
 			pst.setInt(3, hoa.getSoLuong());
-			pst.setString(4, hoa.getHinhAnh());
-			pst.setString(5, hoa.getMoTa());
-			pst.setInt(6, hoa.getId_loaihoa());
+			pst.setFloat(4, hoa.getGiaBan());
+			pst.setString(5, hoa.getHinhAnh());
+			pst.setString(6, hoa.getMoTa());
+			pst.setInt(7, hoa.getId_loaihoa());
 			result = pst.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -101,15 +106,16 @@ public class HoaDAO {
 	public static int editItem(Hoa hoa) {
 		int result = 0;
 		conn = ConnectDBLibrary.getConnection();
-		String sql = "UPDATE hoa SET tenhoa = ?, soluong = ?, hinhanh = ?, mota = ?, idloaihoa = ? WHERE id = ?";
+		String sql = "UPDATE hoa SET ten_hoa = ?, so_luong = ?, gia_ban = ?, hinh_anh = ?, mo_ta = ?, id_loaihoa = ? WHERE id = ?";
 		try {
 			pst = conn.prepareStatement(sql);
 			pst.setString(1, hoa.getTenHoa());
 			pst.setInt(2, hoa.getSoLuong());
-			pst.setString(3, hoa.getHinhAnh());
-			pst.setString(4, hoa.getMoTa());
-			pst.setInt(5, hoa.getId_loaihoa());
-			pst.setInt(6, hoa.getId());
+			pst.setFloat(3, hoa.getGiaBan());
+			pst.setString(4, hoa.getHinhAnh());
+			pst.setString(5, hoa.getMoTa());
+			pst.setInt(6, hoa.getId_loaihoa());
+			pst.setInt(7, hoa.getId());
 			result = pst.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

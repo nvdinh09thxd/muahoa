@@ -15,15 +15,26 @@
 	</div>
 	<%
 		String msg = request.getParameter("msg");
-		if("1".equals(msg)){
-			out.print("<div style=\"background: yellow; color: green; font-weight: bold; padding: 4px\">Xóa thành công!</div>");
-		}
 		if("0".equals(msg)){
-		    out.print("<div style=\"background: yellow; color: red; font-weight: bold; padding: 4px\">Xóa thất bại!</div>");
+		    out.print("<div style=\"background: yellow; color: red; font-weight: bold; padding: 4px\">Xảy ra lỗi trong quá trình xử lý!</div>");
 	    }
+		if("1".equals(msg)){
+			out.print("<div style=\"background: yellow; color: green; font-weight: bold; padding: 4px\">Thêm thành công!</div>");
+		}
+		if("2".equals(msg)){
+			out.print("<div style=\"background: yellow; color: green; font-weight: bold; padding: 4px\">Sửa thành công!</div>");
+		}
+		if("3".equals(msg)){
+			out.print("<div style=\"background: yellow; color: green; font-weight: bold; padding: 4px\">Xóa thành công!</div>");
+		}
 	%>
 	<div class="grid_12">
 		<div class="module">
+		<%
+			if(request.getAttribute("listHoa") != null){
+				ArrayList<Hoa> listHoa = (ArrayList<Hoa>) request.getAttribute("listHoa");
+				if (listHoa.size()>0) {
+		%>
 			<h2>
 				<span>Danh sách hoa</span>
 			</h2>
@@ -35,21 +46,23 @@
 							<th>Tên hoa</th>
 							<th style="width: 20%">Loại hoa</th>
 							<th style="width: 20%">Số lượng</th>
+							<th style="width: 20%">Giá bán</th>
 							<th style="width: 16%; text-align: center;">Hình ảnh</th>
 							<th style="width: 11%; text-align: center;">Chức năng</th>
 						</tr>
 					</thead>
 					<tbody>
 						<%
-							ArrayList<Hoa> listHoa = HoaDAO.getListHoa();
-							if (listHoa != null) {
+							
+								
 								for (Hoa objHoa : listHoa) {
 						%>
 						<tr>
 							<td class="align-center"><%=objHoa.getId()%></td>
 							<td><a href=""><%=objHoa.getTenHoa()%></a></td>
-							<td><%=LoaiHoaDAO.getItemCat(objHoa.getId()).getTenLoaiHoa()%></td>
+							<td><%=LoaiHoaDAO.getItemCatByIdHoa(objHoa.getId()).getTenLoaiHoa()%></td>
 							<td><%=objHoa.getSoLuong()%></td>
+							<td><%=objHoa.getGiaBan()%></td>
 							<td align="center">
 								<img src="<%=request.getContextPath() %>/files/<%=objHoa.getHinhAnh()%>" alt="<%=objHoa.getHinhAnh()%>" class="hoa" style="width: 100px; height: 100px;" />
 							</td>
@@ -57,18 +70,20 @@
 								<a href="<%=request.getContextPath()%>/sua-hoa?id=<%=objHoa.getId()%>">Sửa
 									<img src="<%=request.getContextPath()%>/muahoa/images/pencil.gif" alt="edit" />
 								</a> 
-								<a href="<%=request.getContextPath()%>/xoa-hoa?id=<%=objHoa.getId()%>">Xóa
+								<a href="<%=request.getContextPath()%>/xoa-hoa?id=<%=objHoa.getId()%>" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')">Xóa
 									<img src="<%=request.getContextPath()%>/muahoa/images/bin.gif" width="16" height="16" alt="delete" />
 								</a>
 							</td>
 						</tr>
 						<%
 							}
-							}
 						%>
 					</tbody>
 				</table>
 			</div>
+			<%}}else{ %>
+			<p>Không có danh sách hoa!</p>
+			<%} %>
 		</div>
 
 		<div class="pagination">

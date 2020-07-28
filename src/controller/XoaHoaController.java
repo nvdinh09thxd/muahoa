@@ -25,18 +25,16 @@ public class XoaHoaController extends HttpServlet {
 			idHoa = Integer.parseInt(request.getParameter("id"));
 		} catch (NumberFormatException e) {
 			response.sendRedirect(request.getContextPath() + "/muahoa/PageNotFound.jsp");
-			idHoa = -1;
+			return;
 		}
-		if (idHoa != -1) {
-			Hoa itemHoa = HoaDAO.getItemHoa(idHoa);
-			String filePath = request.getServletContext().getRealPath("") + "files\\" + itemHoa.getHinhAnh();
-			File file = new File(filePath);
-			file.delete();
-			if (HoaDAO.delItem(idHoa) > 0) {
-				response.sendRedirect(request.getContextPath() + "/muahoa/list.jsp?msg=1");
-			} else {
-				response.sendRedirect(request.getContextPath() + "/muahoa/list.jsp?msg=0");
-			}
+		Hoa itemHoa = HoaDAO.getItemHoa(idHoa);
+		String filePath = request.getServletContext().getRealPath("") + "files\\" + itemHoa.getHinhAnh();
+		File file = new File(filePath);
+		file.delete();
+		if (HoaDAO.delItem(idHoa) > 0) {
+			response.sendRedirect(request.getContextPath() + "/xem-hoa?msg=3");
+		} else {
+			response.sendRedirect(request.getContextPath() + "/xem-hoa?msg=0");
 		}
 	}
 

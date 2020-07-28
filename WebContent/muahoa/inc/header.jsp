@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="model.bean.LoaiHoa"%>
 <%@ page import="model.bean.Hoa"%>
-<%@ page import="model.dao.LoaiHoaDAO"%>
+<%@ page import="model.bean.LoaiHoa"%>
 <%@ page import="model.dao.HoaDAO"%>
+<%@ page import="model.dao.LoaiHoaDAO"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -32,7 +32,7 @@
 					<div class="grid_12">
 						<div id="logo">
 							<ul id="nav">
-								<li><a href="<%=request.getContextPath() %>/mua-hoa">Trang chủ</a></li>
+								<li><a href="<%=request.getContextPath() %>/index">Trang chủ</a></li>
 								<li><a href="<%=request.getContextPath() %>/them-hoa">Mua hoa</a></li>
 								<li><a href="<%=request.getContextPath() %>/them-loai-hoa">Thêm danh mục</a></li>
 								<li><a href="<%=request.getContextPath() %>/xem-hoa">Xem danh sách</a></li>

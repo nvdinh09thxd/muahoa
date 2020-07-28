@@ -4,9 +4,18 @@ public class Hoa {
 	int id;
 	String tenHoa;
 	int soLuong;
+	float giaBan;
 	String hinhAnh;
 	String moTa;
 	int id_loaihoa;
+
+	public float getGiaBan() {
+		return giaBan;
+	}
+
+	public void setGiaBan(float giaBan) {
+		this.giaBan = giaBan;
+	}
 
 	public int getId() {
 		return id;
@@ -56,14 +65,19 @@ public class Hoa {
 		this.id_loaihoa = id_loaihoa;
 	}
 
-	public Hoa(int id, String tenHoa, int soLuong, String hinhAnh, String moTa, int id_loaihoa) {
+	public Hoa(int id, String tenHoa, int soLuong, float giaBan, String hinhAnh, String moTa, int id_loaihoa) {
 		super();
 		this.id = id;
 		this.tenHoa = tenHoa;
 		this.soLuong = soLuong;
+		this.giaBan = giaBan;
 		this.hinhAnh = hinhAnh;
 		this.moTa = moTa;
 		this.id_loaihoa = id_loaihoa;
+	}
+
+	public Hoa() {
+		super();
 	}
 
 }

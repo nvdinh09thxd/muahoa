@@ -24,7 +24,7 @@ public class LoaiHoaDAO {
 			st = conn.createStatement();
 			rs = st.executeQuery(sql);
 			while (rs.next()) {
-				LoaiHoa objCat = new LoaiHoa(rs.getInt("id"), rs.getString("tenloaihoa"));
+				LoaiHoa objCat = new LoaiHoa(rs.getInt("id"), rs.getString("ten_loaihoa"));
 				listCat.add(objCat);
 			}
 
@@ -36,15 +36,16 @@ public class LoaiHoaDAO {
 		return listCat;
 	}
 
-	public static LoaiHoa getItemCat(int id) {
+	public static LoaiHoa getItemCatByIdHoa(int id) {
 		conn = ConnectDBLibrary.getConnection();
-		String sql = "SELECT * FROM hoa JOIN loaihoa on hoa.idloaihoa=loaihoa.id WHERE hoa.id=" + id;
+		String sql = "SELECT * FROM hoa AS a JOIN loaihoa AS b on a.id_loaihoa=b.id WHERE a.id = ?";
 		LoaiHoa ItemCat = null;
 		try {
-			st = conn.createStatement();
-			rs = st.executeQuery(sql);
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, id);
+			rs = pst.executeQuery();
 			while (rs.next()) {
-				ItemCat = new LoaiHoa(rs.getInt("loaihoa.id"), rs.getString("tenloaihoa"));
+				ItemCat = new LoaiHoa(rs.getInt("b.id"), rs.getString("b.ten_loaihoa"));
 			}
 
 		} catch (SQLException e) {
@@ -58,7 +59,7 @@ public class LoaiHoaDAO {
 	public static int addItem(LoaiHoa item) {
 		int result = 0;
 		conn = ConnectDBLibrary.getConnection();
-		String sql = "INSERT INTO loaihoa (tenloaihoa) VALUES (?)";
+		String sql = "INSERT INTO loaihoa (ten_loaihoa) VALUES (?)";
 		try {
 			pst = conn.prepareStatement(sql);
 			pst.setString(1, item.getTenLoaiHoa());
@@ -72,9 +73,9 @@ public class LoaiHoaDAO {
 	}
 
 	public static void main(String[] args) {
-		LoaiHoa ItemCat = LoaiHoaDAO.getItemCat(2);
+		// LoaiHoa ItemCat = LoaiHoaDAO.getItemCat(2);
 		// for(LoaiHoa objCat: listCat) {
-		System.out.println(ItemCat.getId() + " - " + ItemCat.getTenLoaiHoa());
+		// System.out.println(ItemCat.getId() + " - " + ItemCat.getTenLoaiHoa());
 		// }
 	}
 }

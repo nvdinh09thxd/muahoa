@@ -5,8 +5,8 @@
 <%@ page import="model.dao.LoaiHoaDAO"%>
 
 <%@include file="inc/header.jsp"%>
-<script src="<%=request.getContextPath()%>/muahoa/js/jquery-3.3.1.min.js"></script>
 <div class="container_12">
+	<p style="color: red;">${err}</p>
 	<div class="grid_12">
 		<div class="module">
 			<p style="background: yellow; color: green; font-weight: bold"></p>
@@ -14,10 +14,11 @@
 				<span>Thêm loại hoa</span>
 			</h2>
 			<div class="module-body">
-				<form action="javascript: void(0)" id="form">
+				
+				<form action="<%=request.getContextPath()%>/them-loai-hoa" method="post">
 					<div>
-						<label>Tên loại hoa</label> 
-						<input type="text" id="loaihoa" name="loaihoa" />
+						<label>Tên loại hoa</label>
+						<input type="text" name="loaihoa" value="${loaiHoa}" />
 					</div>
 					<div>
 						<input type="submit" value="Thêm" /> 
@@ -30,28 +31,4 @@
 	</div>
 </div>
 <div style="clear: both;"></div>
-<script type="text/javascript">
-	$('form').submit(function() {
-		var loaihoa = $("#loaihoa").val();
-		if(loaihoa=="")
-			alert("Vui lòng nhập lại!");
-		else{
-			var fd = new FormData(document.getElementById("form"));
-			$.ajax({
-				url: '<%=request.getContextPath()%>/them-loai-hoa',
-				type : 'post',
-				data : fd,
-				dataType : 'text',
-				processData : false,
-		        contentType : false,
-				success : function(data) {
-					$("p").html(data);
-				},
-				error : function() {
-					alert('Có lỗi xảy ra');
-				}
-			});
-		}
-	})
-</script>
 <%@include file="inc/footer.jsp"%>
