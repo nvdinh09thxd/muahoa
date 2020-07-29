@@ -7,7 +7,7 @@
 <%@include file="inc/header.jsp"%>
 <div class="container_12">
 	<div class="grid_12">
-	<p style="color: red;">${err}</p>
+	<p style="background: yellow; color: red; font-weight: bold">${err}</p>
 		<div class="module">
 			<h2>
 				<span>Mua hoa</span>

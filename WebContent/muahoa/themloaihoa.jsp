@@ -1,15 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="java.util.ArrayList"%>
-<%@ page import="model.bean.LoaiHoa"%>
-<%@ page import="model.dao.LoaiHoaDAO"%>
 
 <%@include file="inc/header.jsp"%>
 <div class="container_12">
-	<p style="color: red;">${err}</p>
 	<div class="grid_12">
 		<div class="module">
-			<p style="background: yellow; color: green; font-weight: bold"></p>
+			<p style="background: yellow; color: red; font-weight: bold">${err}</p>
 			<h2>
 				<span>Thêm loại hoa</span>
 			</h2>

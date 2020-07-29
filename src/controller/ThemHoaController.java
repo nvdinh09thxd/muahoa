@@ -31,28 +31,24 @@ public class ThemHoaController extends HttpServlet {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
-		
-		//Lấy các giá trị nhập vào
+
+		// Lấy các giá trị nhập vào
 		String idStr = request.getParameter("id");
 		String tenHoa = request.getParameter("ten");
 		String idLoaihoaStr = request.getParameter("loaihoa");
 		String soLuongStr = request.getParameter("soluong");
 		String giaBanStr = request.getParameter("giaban");
 		String moTa = request.getParameter("mota");
-		
-		//setAttribute cho các giá trị
+
+		// setAttribute cho các giá trị
 		request.setAttribute("idStr", idStr);
 		request.setAttribute("tenHoa", tenHoa);
 		request.setAttribute("soLuongStr", soLuongStr);
 		request.setAttribute("giaBanStr", giaBanStr);
 		request.setAttribute("moTa", moTa);
-		
-		//Validate cho id
-		if ("".equals(idStr)) {
-			request.setAttribute("err", "Vui lòng nhập ID hoa!");
-			request.getRequestDispatcher("/muahoa/add.jsp").forward(request, response);
-			return;
-		}		
+
+		// Validate cho id
+		checkValue(idStr, "Vui lòng nhập ID hoa!", request, response);
 		int id = 0;
 		try {
 			id = Integer.parseInt(idStr);
@@ -63,22 +59,14 @@ public class ThemHoaController extends HttpServlet {
 			request.getRequestDispatcher("/muahoa/add.jsp").forward(request, response);
 			return;
 		}
-		
-		//Validate cho tên
-		if ("".equals(tenHoa)) {
-			request.setAttribute("err", "Vui lòng nhập tên hoa!");
-			request.getRequestDispatcher("/muahoa/add.jsp").forward(request, response);
-			return;
-		}
-		
+
+		// Validate cho tên
+		checkValue(tenHoa, "Vui lòng nhập tên hoa!", request, response);
+
 		int idLoaihoa = Integer.parseInt(idLoaihoaStr);
-		
-		//Validate cho số lượng
-		if ("".equals(soLuongStr)) {
-			request.setAttribute("err", "Vui lòng nhập số lượng!");
-			request.getRequestDispatcher("/muahoa/add.jsp").forward(request, response);
-			return;
-		}		
+
+		// Validate cho số lượng
+		checkValue(soLuongStr, "Vui lòng nhập số lượng!", request, response);
 		int soLuong = 0;
 		try {
 			soLuong = Integer.parseInt(soLuongStr);
@@ -89,13 +77,9 @@ public class ThemHoaController extends HttpServlet {
 			request.getRequestDispatcher("/muahoa/add.jsp").forward(request, response);
 			return;
 		}
-		
-		//Validate cho giá bán
-		if ("".equals(giaBanStr)) {
-			request.setAttribute("err", "Vui lòng nhập giá bán!");
-			request.getRequestDispatcher("/muahoa/add.jsp").forward(request, response);
-			return;
-		}		
+
+		// Validate cho giá bán
+		checkValue(giaBanStr, "Vui lòng nhập giá bán!", request, response);
 		float giaBan = 0;
 		try {
 			giaBan = Float.parseFloat(giaBanStr);
@@ -106,42 +90,48 @@ public class ThemHoaController extends HttpServlet {
 			request.getRequestDispatcher("/muahoa/add.jsp").forward(request, response);
 			return;
 		}
-		
+
 		Part filePart = request.getPart("hinhanh");
 		String fileName = filePart.getSubmittedFileName();
-		//Validate cho hình ảnh
-		if ("".equals(fileName)) {
-			request.setAttribute("err", "Vui lòng chọn hình ảnh!");
-			request.getRequestDispatcher("/muahoa/add.jsp").forward(request, response);
-			return;
-		}
+		// Validate cho hình ảnh
+		checkValue(fileName, "Vui lòng chọn hình ảnh!", request, response);
 		String fileType = filePart.getContentType();
 		if (!fileType.startsWith("image")) {
 			request.setAttribute("err", "File bạn chọn không phải là file ảnh!");
 			request.getRequestDispatcher("/muahoa/add.jsp").forward(request, response);
 			return;
 		}
-		// Xử lý upload ảnh
-		String appPath = request.getServletContext().getRealPath("");
-		String dirPath = appPath + "files";
-		File saveDir = new File(dirPath);
-		if (!saveDir.exists()) {
-			saveDir.mkdir();
-		}
+		// Đổi tên file
 		String portal = fileName.split("\\.")[0];
 		String extra = fileName.split("\\.")[1];
 		long time = System.currentTimeMillis();
 		fileName = portal + "_" + time + "." + extra;
-		String filePath = dirPath + File.separator + fileName;
-		filePart.write(filePath);
 
 		Hoa hoa = new Hoa(id, tenHoa, soLuong, giaBan, fileName, moTa, idLoaihoa);
 		// Thêm vào cơ sở dữ liệu
 		if (HoaDAO.addItem(hoa) > 0) {
+			// Nếu thêm vào db thành công thì mới upload ảnh
+			String appPath = request.getServletContext().getRealPath("");
+			String dirPath = appPath + "files";
+			File saveDir = new File(dirPath);
+			if (!saveDir.exists()) {
+				saveDir.mkdir();
+			}
+			String filePath = dirPath + File.separator + fileName;
+			filePart.write(filePath);
 			response.sendRedirect(request.getContextPath() + "/xem-hoa?msg=1");
 		} else {
 			request.setAttribute("err", "Xảy ra lỗi trong quá trình xử lý!");
 			request.getRequestDispatcher("/muahoa/add.jsp").forward(request, response);
+		}
+	}
+
+	protected void checkValue(String value, String msg, HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		if ("".equals(value)) {
+			request.setAttribute("err", msg);
+			request.getRequestDispatcher("/muahoa/add.jsp").forward(request, response);
+			return;
 		}
 	}
 }

@@ -43,6 +43,7 @@ public class SuaHoaController extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
 
+		// Lấy các giá trị đã sửa
 		int id = Integer.parseInt(request.getParameter("id"));
 		String tenHoa = request.getParameter("ten");
 		int id_loaihoa = Integer.parseInt(request.getParameter("loaihoa"));
@@ -50,30 +51,44 @@ public class SuaHoaController extends HttpServlet {
 		float giaBan = Float.parseFloat(request.getParameter("giaban"));
 		String moTa = request.getParameter("mota");
 
-		// xóa ảnh cũ
+		// validate cho hình ảnh
+		Part filePart = request.getPart("hinhanh");
+		String fileName = filePart.getSubmittedFileName();
+		if ("".equals(fileName)) {
+			request.getRequestDispatcher("/muahoa/edit.jsp?err=1").forward(request, response);
+			return;
+		}
+		String fileType = filePart.getContentType();
+		if (!fileType.startsWith("image")) {
+			request.getRequestDispatcher("/muahoa/edit.jsp?err=2").forward(request, response);
+			return;
+		}
+
+		// Lấy ảnh cũ
 		Hoa itemHoa = HoaDAO.getItemHoa(id);
 		String filePath = request.getServletContext().getRealPath("") + "files\\" + itemHoa.getHinhAnh();
 		File file = new File(filePath);
-		file.delete();
 
-		// upload ảnh mới
-		Part filePart = request.getPart("hinhanh");
-		String fileName = filePart.getSubmittedFileName();
-		String appPath = request.getServletContext().getRealPath("");
-		String dirPath = appPath + "files";
-		File saveDir = new File(dirPath);
-		if (!saveDir.exists()) {
-			saveDir.mkdir();
-		}
+		// đổi tên file
 		String portal = fileName.split("\\.")[0];
 		String extra = fileName.split("\\.")[1];
 		long time = System.currentTimeMillis();
 		fileName = portal + "_" + time + "." + extra;
-		filePath = dirPath + File.separator + fileName;
-		filePart.write(filePath);
 
 		itemHoa = new Hoa(id, tenHoa, soLuong, giaBan, fileName, moTa, id_loaihoa);
-		if (HoaDAO.editItem(itemHoa) > 0) {
+		// Sửa trong cơ sở dữ liệu
+		if (HoaDAO.editItem(itemHoa) > 0) {// Nếu sửa thành công thì mới xóa ảnh cũ và upload ảnh mới
+			// xóa ảnh cũ
+			file.delete();
+			// upload ảnh mới
+			String appPath = request.getServletContext().getRealPath("");
+			String dirPath = appPath + "files";
+			File saveDir = new File(dirPath);
+			if (!saveDir.exists()) {
+				saveDir.mkdir();
+			}
+			filePath = dirPath + File.separator + fileName;
+			filePart.write(filePath);
 			response.sendRedirect(request.getContextPath() + "/xem-hoa?msg=2");
 		} else {
 			request.getRequestDispatcher("/muahoa/edit.jsp?err=0").forward(request, response);

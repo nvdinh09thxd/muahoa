@@ -2,14 +2,14 @@
     pageEncoding="UTF-8"%>
     
 <%@include file="inc/header.jsp"%>
+	<div class="container_12">
+
 	<%
 		String msg = request.getParameter("msg");
 		if("1".equals(msg)){
 		    out.print("<div style=\"background: yellow; color: green; font-weight: bold; padding: 4px\">Thêm loại hoa thành công!</div>");
 	    }
 	%>
-	<div class="container_12">
-
 		<div class="grid_main_l">
 			<a href="<%=request.getContextPath() %>/mua-hoa" class="dashboard-module"> 
 				<img src="<%=request.getContextPath() %>/muahoa/images/Crystal_Clear_write.gif" width="64" height="64" alt="edit" /> 

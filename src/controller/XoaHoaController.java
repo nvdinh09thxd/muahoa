@@ -30,8 +30,8 @@ public class XoaHoaController extends HttpServlet {
 		Hoa itemHoa = HoaDAO.getItemHoa(idHoa);
 		String filePath = request.getServletContext().getRealPath("") + "files\\" + itemHoa.getHinhAnh();
 		File file = new File(filePath);
-		file.delete();
 		if (HoaDAO.delItem(idHoa) > 0) {
+			file.delete();
 			response.sendRedirect(request.getContextPath() + "/xem-hoa?msg=3");
 		} else {
 			response.sendRedirect(request.getContextPath() + "/xem-hoa?msg=0");
