@@ -8,6 +8,7 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import model.bean.Hoa;
@@ -23,11 +24,24 @@ public class ThemHoaController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		// Nếu chưa login thì chuyển đến trang login
+		if (session.getAttribute("userLogin") == null) {
+			response.sendRedirect(request.getContextPath() + "/login");
+			return;
+		}
 		request.getRequestDispatcher("/muahoa/add.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		// Nếu chưa login thì chuyển đến trang login
+		if (session.getAttribute("userLogin") == null) {
+			response.sendRedirect(request.getContextPath() + "/login");
+			return;
+		}
+		
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
@@ -73,7 +87,7 @@ public class ThemHoaController extends HttpServlet {
 			if (soLuong < 0)
 				throw new Exception();
 		} catch (Exception e) {
-			request.setAttribute("err", "Số lượng phải là số không âm!");
+			request.setAttribute("err", "Số lượng phải là số nguyên không âm!");
 			request.getRequestDispatcher("/muahoa/add.jsp").forward(request, response);
 			return;
 		}

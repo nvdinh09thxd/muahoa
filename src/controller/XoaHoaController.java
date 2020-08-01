@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.bean.Hoa;
 import model.dao.HoaDAO;
@@ -20,6 +21,13 @@ public class XoaHoaController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		// Nếu chưa login thì chuyển đến trang login
+		if (session.getAttribute("userLogin") == null) {
+			response.sendRedirect(request.getContextPath() + "/login");
+			return;
+		}
+		
 		int idHoa = 0;
 		try {
 			idHoa = Integer.parseInt(request.getParameter("id"));

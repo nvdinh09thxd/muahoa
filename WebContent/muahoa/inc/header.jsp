@@ -1,3 +1,4 @@
+<%@page import="model.bean.Users"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList"%>
@@ -19,8 +20,18 @@
 				<div class="container_12">
 					<div class="grid_4">
 						<ul class="user-pro">
-							<li><a href="">Logout</a></li>
-							<li>Chào, <a href="">admin</a></li>
+						<%
+						Users userLogin = (Users) session.getAttribute("userLogin");
+						if(userLogin!=null){
+						%>
+							<li><a href="<%=request.getContextPath()%>/logout">Logout</a></li>
+							<li><img style="width: 20px; height: 20px" alt="<%=userLogin.getAvatar() %>" src="<%=request.getContextPath()%>/muahoa/images/<%=userLogin.getAvatar()%>"></li>
+							<li>Chào, <a href=""><%=userLogin.getFullName() %></a></li>
+						<%
+						} else {
+						%>
+							<li><a href="<%=request.getContextPath()%>/login">Login</a></li>
+						<%} %>
 						</ul>
 					</div>
 				</div>
