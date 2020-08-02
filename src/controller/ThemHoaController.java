@@ -17,6 +17,7 @@ import model.dao.HoaDAO;
 @MultipartConfig
 public class ThemHoaController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final String DIR_UPLOAD = "muahoa/upload";
 
 	public ThemHoaController() {
 		super();
@@ -126,7 +127,7 @@ public class ThemHoaController extends HttpServlet {
 		if (HoaDAO.addItem(hoa) > 0) {
 			// Nếu thêm vào db thành công thì mới upload ảnh
 			String appPath = request.getServletContext().getRealPath("");
-			String dirPath = appPath + "files";
+			String dirPath = appPath + DIR_UPLOAD;
 			File saveDir = new File(dirPath);
 			if (!saveDir.exists()) {
 				saveDir.mkdir();

@@ -11,6 +11,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Mua hoa</title>
+		<link rel="icon" type="image/png" href="<%=request.getContextPath()%>/muahoa/images/icon.jpg"/>
 		<link href="<%=request.getContextPath() %>/muahoa/css/reset.css" rel="stylesheet" type="text/css">
 		<link href="<%=request.getContextPath() %>/muahoa/css/style.css" rel="stylesheet" type="text/css">
 	</head>

@@ -18,6 +18,7 @@ import model.dao.HoaDAO;
 @MultipartConfig
 public class SuaHoaController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final String DIR_UPLOAD = "muahoa/upload";
 
 	public SuaHoaController() {
 		super();
@@ -97,7 +98,7 @@ public class SuaHoaController extends HttpServlet {
 			file.delete();
 			// upload ảnh mới
 			String appPath = request.getServletContext().getRealPath("");
-			String dirPath = appPath + "files";
+			String dirPath = appPath + DIR_UPLOAD;
 			File saveDir = new File(dirPath);
 			if (!saveDir.exists()) {
 				saveDir.mkdir();

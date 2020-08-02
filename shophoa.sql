@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th7 28, 2020 lúc 11:06 AM
+-- Thời gian đã tạo: Th8 02, 2020 lúc 03:25 PM
 -- Phiên bản máy phục vụ: 10.1.32-MariaDB
 -- Phiên bản PHP: 7.2.5
 
@@ -43,7 +43,10 @@ CREATE TABLE `hoa` (
 --
 
 INSERT INTO `hoa` (`id`, `ten_hoa`, `so_luong`, `gia_ban`, `hinh_anh`, `mo_ta`, `id_loaihoa`) VALUES
-(1, 'Hoa Hồng', 1, 10000, 'img1_1595927013642.jpg', '', 5);
+(1, 'Hoa huệ', 1, 1000, 'img1.jpg', '', 4),
+(2, 'Hoa cúc', 2, 2000, 'img2.jpg', '', 2),
+(3, 'Hoa lan', 3, 3000, 'img3.jpeg', '', 4),
+(4, 'Hoa bưởi', 4, 4000, 'img4.gif', '', 2);
 
 -- --------------------------------------------------------
 
@@ -64,8 +67,31 @@ INSERT INTO `loaihoa` (`id`, `ten_loaihoa`) VALUES
 (1, 'Hoa Kỷ Niệm'),
 (2, 'Hoa Chúc Mừng'),
 (3, 'Hoa Cưới'),
-(4, 'Hoa Hạnh Phúc'),
-(5, 'Hoa Cô Đơn');
+(4, 'Hoa Hạnh Phúc');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `username` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `avatar` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
+  `fullname` varchar(60) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `avatar`, `fullname`) VALUES
+(1, 'admin', '123', 'icon.jpg', 'Nguyễn Văn Định'),
+(2, 'thanhthanh', '123456', 'hinh4.gif', 'Thanh Thanh Trần'),
+(3, 'vanhoang', '121212', 'hinh3.jpg', 'Nguyễn Văn Hoàng'),
+(4, 'thienthu', 'thienthu', 'hinh2.jpg', 'Đỗ Thiên Thư');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -85,6 +111,12 @@ ALTER TABLE `loaihoa`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Chỉ mục cho bảng `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT cho các bảng đã đổ
 --
 
@@ -92,13 +124,19 @@ ALTER TABLE `loaihoa`
 -- AUTO_INCREMENT cho bảng `hoa`
 --
 ALTER TABLE `hoa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT cho bảng `loaihoa`
 --
 ALTER TABLE `loaihoa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT cho bảng `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Các ràng buộc cho các bảng đã đổ

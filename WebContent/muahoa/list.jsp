@@ -64,7 +64,7 @@
 							<td><%=objHoa.getSoLuong()%></td>
 							<td><%=objHoa.getGiaBan()%></td>
 							<td align="center">
-								<img src="<%=request.getContextPath() %>/files/<%=objHoa.getHinhAnh()%>" alt="<%=objHoa.getHinhAnh()%>" class="hoa" style="width: 100px; height: 100px;" />
+								<img src="<%=request.getContextPath() %>/muahoa/upload/<%=objHoa.getHinhAnh()%>" alt="<%=objHoa.getHinhAnh()%>" class="hoa" style="width: 100px; height: 100px;" />
 							</td>
 							<td align="center">
 								<a href="<%=request.getContextPath()%>/sua-hoa?id=<%=objHoa.getId()%>">Sửa
