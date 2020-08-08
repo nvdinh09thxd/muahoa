@@ -32,7 +32,7 @@ public class SuaHoaController extends HttpServlet {
 			response.sendRedirect(request.getContextPath() + "/login");
 			return;
 		}
-		
+
 		int idHoa = 0;
 		try {
 			idHoa = Integer.parseInt(request.getParameter("id"));
@@ -54,7 +54,7 @@ public class SuaHoaController extends HttpServlet {
 			response.sendRedirect(request.getContextPath() + "/login");
 			return;
 		}
-		
+
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
@@ -67,36 +67,29 @@ public class SuaHoaController extends HttpServlet {
 		float giaBan = Float.parseFloat(request.getParameter("giaban"));
 		String moTa = request.getParameter("mota");
 
+		// Lấy ảnh cũ
+		Hoa itemHoa = HoaDAO.getItemHoa(id);
+		String filePath = request.getServletContext().getRealPath("") + DIR_UPLOAD + File.separator
+				+ itemHoa.getHinhAnh();
+		File file = new File(filePath);
+
 		// validate cho hình ảnh
 		Part filePart = request.getPart("hinhanh");
 		String fileName = filePart.getSubmittedFileName();
-		if ("".equals(fileName)) {
-			request.getRequestDispatcher("/muahoa/edit.jsp?err=1").forward(request, response);
-			return;
-		}
-		String fileType = filePart.getContentType();
-		if (!fileType.startsWith("image")) {
-			request.getRequestDispatcher("/muahoa/edit.jsp?err=2").forward(request, response);
-			return;
-		}
-
-		// Lấy ảnh cũ
-		Hoa itemHoa = HoaDAO.getItemHoa(id);
-		String filePath = request.getServletContext().getRealPath("") + "files\\" + itemHoa.getHinhAnh();
-		File file = new File(filePath);
-
-		// đổi tên file
-		String portal = fileName.split("\\.")[0];
-		String extra = fileName.split("\\.")[1];
-		long time = System.currentTimeMillis();
-		fileName = portal + "_" + time + "." + extra;
-
-		itemHoa = new Hoa(id, tenHoa, soLuong, giaBan, fileName, moTa, id_loaihoa);
-		// Sửa trong cơ sở dữ liệu
-		if (HoaDAO.editItem(itemHoa) > 0) {// Nếu sửa thành công thì mới xóa ảnh cũ và upload ảnh mới
-			// xóa ảnh cũ
-			file.delete();
-			// upload ảnh mới
+		boolean isSelected = fileName != "";// Có chọn ảnh hay không?
+		if (isSelected) {
+			String fileType = filePart.getContentType();
+			if (!fileType.startsWith("image")) {
+				request.setAttribute("hinhanh", itemHoa.getHinhAnh());
+				request.getRequestDispatcher("/muahoa/edit.jsp?err=2").forward(request, response);
+				return;
+			}
+			// đổi tên file
+			String portal = fileName.split("\\.")[0];
+			String extra = fileName.split("\\.")[1];
+			long time = System.currentTimeMillis();
+			fileName = portal + "_" + time + "." + extra;
+			// Xử lý upload ảnh
 			String appPath = request.getServletContext().getRealPath("");
 			String dirPath = appPath + DIR_UPLOAD;
 			File saveDir = new File(dirPath);
@@ -104,7 +97,19 @@ public class SuaHoaController extends HttpServlet {
 				saveDir.mkdir();
 			}
 			filePath = dirPath + File.separator + fileName;
-			filePart.write(filePath);
+		} else {
+			fileName = itemHoa.getHinhAnh();
+		}
+
+		itemHoa = new Hoa(id, tenHoa, soLuong, giaBan, fileName, moTa, id_loaihoa);
+		// Sửa trong cơ sở dữ liệu
+		if (HoaDAO.editItem(itemHoa) > 0) {// Nếu sửa thành công thì mới xóa ảnh cũ và upload ảnh mới
+			if (isSelected) {
+				// xóa ảnh cũ
+				file.delete();
+				// upload ảnh mới
+				filePart.write(filePath);
+			}
 			response.sendRedirect(request.getContextPath() + "/xem-hoa?msg=2");
 		} else {
 			request.getRequestDispatcher("/muahoa/edit.jsp?err=0").forward(request, response);

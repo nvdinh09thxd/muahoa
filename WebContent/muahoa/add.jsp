@@ -28,7 +28,7 @@
 						<select class="input-short" name="loaihoa">
 							<%
 								ArrayList<LoaiHoa> listCat = LoaiHoaDAO.getListCat();
-									if (listCat != null) {
+									if (listCat.size() > 0) {
 										for (LoaiHoa objCat : listCat) {
 							%>
 							<option value="<%=objCat.getId()%>"><%=objCat.getTenLoaiHoa()%></option>

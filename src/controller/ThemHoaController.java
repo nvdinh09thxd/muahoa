@@ -121,18 +121,20 @@ public class ThemHoaController extends HttpServlet {
 		String extra = fileName.split("\\.")[1];
 		long time = System.currentTimeMillis();
 		fileName = portal + "_" + time + "." + extra;
+		
+		//Xử lý upload ảnh
+		String appPath = request.getServletContext().getRealPath("");
+		String dirPath = appPath + DIR_UPLOAD;
+		File saveDir = new File(dirPath);
+		if (!saveDir.exists()) {
+			saveDir.mkdir();
+		}
+		String filePath = dirPath + File.separator + fileName;
 
 		Hoa hoa = new Hoa(id, tenHoa, soLuong, giaBan, fileName, moTa, idLoaihoa);
 		// Thêm vào cơ sở dữ liệu
 		if (HoaDAO.addItem(hoa) > 0) {
 			// Nếu thêm vào db thành công thì mới upload ảnh
-			String appPath = request.getServletContext().getRealPath("");
-			String dirPath = appPath + DIR_UPLOAD;
-			File saveDir = new File(dirPath);
-			if (!saveDir.exists()) {
-				saveDir.mkdir();
-			}
-			String filePath = dirPath + File.separator + fileName;
 			filePart.write(filePath);
 			response.sendRedirect(request.getContextPath() + "/xem-hoa?msg=1");
 		} else {

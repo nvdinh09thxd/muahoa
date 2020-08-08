@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import library.ConnectDBLibrary;
 import model.bean.LoaiHoa;
+import util.ConnectDBLibrary;
 
 public class LoaiHoaDAO {
 	private static Connection conn;

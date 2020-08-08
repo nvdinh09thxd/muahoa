@@ -43,11 +43,11 @@
 					<thead>
 						<tr>
 							<th style="width: 4%; text-align: center;">ID</th>
-							<th>Tên hoa</th>
+							<th style="width: 20%">Tên hoa</th>
 							<th style="width: 20%">Loại hoa</th>
-							<th style="width: 20%">Số lượng</th>
-							<th style="width: 20%">Giá bán</th>
-							<th style="width: 16%; text-align: center;">Hình ảnh</th>
+							<th style="width: 10%">Số lượng</th>
+							<th style="width: 10%">Giá bán</th>
+							<th style="width: 20%; text-align: center;">Hình ảnh</th>
 							<th style="width: 11%; text-align: center;">Chức năng</th>
 						</tr>
 					</thead>
@@ -64,7 +64,7 @@
 							<td><%=objHoa.getSoLuong()%></td>
 							<td><%=objHoa.getGiaBan()%></td>
 							<td align="center">
-								<img src="<%=request.getContextPath() %>/muahoa/upload/<%=objHoa.getHinhAnh()%>" alt="<%=objHoa.getHinhAnh()%>" class="hoa" style="width: 100px; height: 100px;" />
+								<img src="<%=request.getContextPath() %>/muahoa/upload/<%=objHoa.getHinhAnh()%>" alt="<%=objHoa.getHinhAnh()%>" class="hoa" style="width: 150px; height: 100px;" />
 							</td>
 							<td align="center">
 								<a href="<%=request.getContextPath()%>/sua-hoa?id=<%=objHoa.getId()%>">Sửa

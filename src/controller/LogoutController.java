@@ -19,7 +19,7 @@ public class LogoutController extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		session.invalidate();
-		response.sendRedirect(request.getContextPath() + "/login");
+		response.sendRedirect(request.getContextPath() + "/index");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

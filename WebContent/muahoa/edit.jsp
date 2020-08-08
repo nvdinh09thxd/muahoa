@@ -40,11 +40,10 @@
 					if(request.getParameter("giaban") != null){
 						giaBan = Float.parseFloat(request.getParameter("giaban"));
 					}
-					String hinhAnh = request.getParameter("hinhanh");
+					String hinhAnh = (String) request.getAttribute("hinhanh");
 					String moTa = request.getParameter("mota");
 					Hoa itemHoa = (Hoa) request.getAttribute("itemHoa");
 					if(itemHoa != null){
-						id = itemHoa.getId();
 						tenHoa = itemHoa.getTenHoa();
 						id_loaiHoa = itemHoa.getId_loaihoa();
 						soLuong = itemHoa.getSoLuong();
@@ -65,17 +64,11 @@
 						<select class="input-short" name="loaihoa">
 							<%
 								ArrayList<LoaiHoa> listCat = LoaiHoaDAO.getListCat();
-									if (listCat != null) {
+									if (listCat.size() > 0) {
 										for (LoaiHoa objCat : listCat) {
-											if (objCat.getId()==(id_loaiHoa)) {
 							%>
-							<option value="<%=objCat.getId()%>" selected="selected"><%=objCat.getTenLoaiHoa()%></option>
+							<option value="<%=objCat.getId()%>" <%if(objCat.getId()==id_loaiHoa) out.print("selected");%>><%=objCat.getTenLoaiHoa()%></option>
 							<%
-								} else {
-							%>
-							<option value="<%=objCat.getId()%>"><%=objCat.getTenLoaiHoa()%></option>
-							<%
-								}
 									}
 								}
 							%>
@@ -92,7 +85,7 @@
 					<div>
 						<label>Hình ảnh</label> 
 						<input type="file" value="" name="hinhanh" /><br />
-						<img src="<%=request.getContextPath() %>/files/<%=hinhAnh%>" alt="<%=hinhAnh%>" class="hoa" style="width: 100px; height: 100px;" />
+						<img src="<%=request.getContextPath() %>/muahoa/upload/<%=hinhAnh%>" alt="<%=hinhAnh%>" class="hoa" style="width: 100px; height: 100px;" />
 					</div>
 					<div>
 						<label>Mô tả</label>

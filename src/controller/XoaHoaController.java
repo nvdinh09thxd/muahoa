@@ -14,6 +14,7 @@ import model.dao.HoaDAO;
 
 public class XoaHoaController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final String DIR_UPLOAD = "muahoa/upload";
 
 	public XoaHoaController() {
 		super();
@@ -36,7 +37,7 @@ public class XoaHoaController extends HttpServlet {
 			return;
 		}
 		Hoa itemHoa = HoaDAO.getItemHoa(idHoa);
-		String filePath = request.getServletContext().getRealPath("") + "files\\" + itemHoa.getHinhAnh();
+		String filePath = request.getServletContext().getRealPath("") + DIR_UPLOAD + File.separator + itemHoa.getHinhAnh();
 		File file = new File(filePath);
 		if (HoaDAO.delItem(idHoa) > 0) {
 			file.delete();

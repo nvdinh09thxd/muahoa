@@ -22,8 +22,8 @@
 					<div class="grid_4">
 						<ul class="user-pro">
 						<%
-						Users userLogin = (Users) session.getAttribute("userLogin");
-						if(userLogin!=null){
+							Users userLogin = (Users) session.getAttribute("userLogin");
+							if(userLogin!=null){
 						%>
 							<li><a href="<%=request.getContextPath()%>/logout">Logout</a></li>
 							<li><img style="width: 20px; height: 20px" alt="<%=userLogin.getAvatar() %>" src="<%=request.getContextPath()%>/muahoa/images/<%=userLogin.getAvatar()%>"></li>

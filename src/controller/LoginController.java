@@ -34,7 +34,7 @@ public class LoginController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		String err1 = "Bạn vui lòng nhập Email / Password";
+		String err1 = "Bạn vui lòng nhập Username / Password";
 		String err2 = "Sai tên đăng nhập hoặc mật khẩu";
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
@@ -46,10 +46,10 @@ public class LoginController extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("/muahoa/login.jsp");
 			rd.forward(request, response);
 		} else {
-			ArrayList<Users> listItems = new ArrayList<>();
+			ArrayList<Users> listUsers = new ArrayList<>();
 			UserDao userDao = new UserDao();
-			listItems = userDao.getItems();
-			for (Users user : listItems) {
+			listUsers = userDao.getItems();
+			for (Users user : listUsers) {
 				if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
 					session.setAttribute("userLogin", user);
 					response.sendRedirect(request.getContextPath() + "/index");

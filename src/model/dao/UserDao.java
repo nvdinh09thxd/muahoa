@@ -6,8 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import library.ConnectDBLibrary;
 import model.bean.Users;
+import util.ConnectDBLibrary;
 
 public class UserDao {
 	private static Connection conn;

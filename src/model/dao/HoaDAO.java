@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import library.ConnectDBLibrary;
 import model.bean.Hoa;
+import util.ConnectDBLibrary;
 
 public class HoaDAO {
 	private static Connection conn;
@@ -18,7 +18,7 @@ public class HoaDAO {
 
 	public static ArrayList<Hoa> getListHoa() {
 		conn = ConnectDBLibrary.getConnection();
-		String sql = "SELECT * FROM hoa JOIN loaihoa ON hoa.id_loaihoa = loaihoa.id";
+		String sql = "SELECT * FROM hoa";
 		ArrayList<Hoa> listHoa = new ArrayList<>();
 		try {
 			st = conn.createStatement();
