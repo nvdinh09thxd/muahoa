@@ -81,7 +81,7 @@ public class SuaHoaController extends HttpServlet {
 			String fileType = filePart.getContentType();
 			if (!fileType.startsWith("image")) {
 				request.setAttribute("hinhanh", itemHoa.getHinhAnh());
-				request.getRequestDispatcher("/muahoa/edit.jsp?err=2").forward(request, response);
+				request.getRequestDispatcher("/muahoa/edit.jsp?err=1").forward(request, response);
 				return;
 			}
 			// đổi tên file
@@ -112,6 +112,7 @@ public class SuaHoaController extends HttpServlet {
 			}
 			response.sendRedirect(request.getContextPath() + "/xem-hoa?msg=2");
 		} else {
+			request.setAttribute("hinhanh", itemHoa.getHinhAnh());
 			request.getRequestDispatcher("/muahoa/edit.jsp?err=0").forward(request, response);
 		}
 	}

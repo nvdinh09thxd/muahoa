@@ -4,7 +4,7 @@
 <%@include file="inc/header.jsp"%>
 
 	<div class="container_12">
-		<p>Trang khong ton tai</p>
+		<p>Trang không tồn tại!</p>
 	</div>
 	<div style="clear: both;"></div>
 	

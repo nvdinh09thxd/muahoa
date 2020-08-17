@@ -32,6 +32,7 @@
 		<div class="module">
 		<%
 			if(request.getAttribute("listHoa") != null){
+				@SuppressWarnings("unchecked")
 				ArrayList<Hoa> listHoa = (ArrayList<Hoa>) request.getAttribute("listHoa");
 				if (listHoa.size()>0) {
 		%>
@@ -53,8 +54,6 @@
 					</thead>
 					<tbody>
 						<%
-							
-								
 								for (Hoa objHoa : listHoa) {
 						%>
 						<tr>

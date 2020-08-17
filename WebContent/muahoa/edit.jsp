@@ -10,9 +10,6 @@
 		    out.print("<div style=\"background: yellow; color: red; font-weight: bold; padding: 4px\">Xảy ra lỗi trong quá trình xử lý!</div>");
 	    }
 		if("1".equals(err)){
-		    out.print("<div style=\"background: yellow; color: red; font-weight: bold; padding: 4px\">Vui lòng chọn hình ảnh!</div>");
-	    }
-		if("2".equals(err)){
 		    out.print("<div style=\"background: yellow; color: red; font-weight: bold; padding: 4px\">File bạn chọn không phải là file ảnh!</div>");
 	    }
 	%>

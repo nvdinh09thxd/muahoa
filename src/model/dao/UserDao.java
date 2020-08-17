@@ -1,37 +1,36 @@
 package model.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 
 import model.bean.Users;
 import util.ConnectDBLibrary;
 
 public class UserDao {
 	private static Connection conn;
-	private static Statement st;
+	private static PreparedStatement pst;
 	private static ResultSet rs;
 
-	public ArrayList<Users> getItems() {
-		ArrayList<Users> listItems = new ArrayList<>();
+	public Users getItem(String username, String password) {
 		conn = ConnectDBLibrary.getConnection();
+		String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+		Users item = null;
 		try {
-			String sql = "SELECT * FROM users";
-			st = conn.createStatement();
-			rs = st.executeQuery(sql);
-			while (rs.next()) {
-				Users user = new Users(rs.getInt("id"), rs.getString("username"), rs.getString("password"),
+			pst = conn.prepareStatement(sql);
+			pst.setString(1, username);
+			pst.setString(2, password);
+			rs = pst.executeQuery();
+			if (rs.next()) {
+				item = new Users(rs.getInt("id"), rs.getString("username"), rs.getString("password"),
 						rs.getString("avatar"), rs.getString("fullname"));
-				listItems.add(user);
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			ConnectDBLibrary.close(rs, st, conn);
+			ConnectDBLibrary.close(rs, pst, conn);
 		}
-		return listItems;
+		return item;
 	}
 }

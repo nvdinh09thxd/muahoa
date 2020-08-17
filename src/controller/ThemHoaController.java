@@ -42,7 +42,7 @@ public class ThemHoaController extends HttpServlet {
 			response.sendRedirect(request.getContextPath() + "/login");
 			return;
 		}
-		
+
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
@@ -63,7 +63,11 @@ public class ThemHoaController extends HttpServlet {
 		request.setAttribute("moTa", moTa);
 
 		// Validate cho id
-		checkValue(idStr, "Vui lòng nhập ID hoa!", request, response);
+		if ("".equals(idStr)) {
+			request.setAttribute("err", "Vui lòng nhập ID hoa!");
+			request.getRequestDispatcher("/muahoa/add.jsp").forward(request, response);
+			return;
+		}
 		int id = 0;
 		try {
 			id = Integer.parseInt(idStr);
@@ -76,12 +80,19 @@ public class ThemHoaController extends HttpServlet {
 		}
 
 		// Validate cho tên
-		checkValue(tenHoa, "Vui lòng nhập tên hoa!", request, response);
+		if ("".equals(tenHoa)) {
+			request.setAttribute("err", "Vui lòng nhập tên hoa!");
+			request.getRequestDispatcher("/muahoa/add.jsp").forward(request, response);
+			return;
+		}
 
 		int idLoaihoa = Integer.parseInt(idLoaihoaStr);
-
 		// Validate cho số lượng
-		checkValue(soLuongStr, "Vui lòng nhập số lượng!", request, response);
+		if ("".equals(soLuongStr)) {
+			request.setAttribute("err", "Vui lòng nhập số lượng!");
+			request.getRequestDispatcher("/muahoa/add.jsp").forward(request, response);
+			return;
+		}
 		int soLuong = 0;
 		try {
 			soLuong = Integer.parseInt(soLuongStr);
@@ -94,7 +105,11 @@ public class ThemHoaController extends HttpServlet {
 		}
 
 		// Validate cho giá bán
-		checkValue(giaBanStr, "Vui lòng nhập giá bán!", request, response);
+		if ("".equals(giaBanStr)) {
+			request.setAttribute("err", "Vui lòng nhập giá bán!");
+			request.getRequestDispatcher("/muahoa/add.jsp").forward(request, response);
+			return;
+		}
 		float giaBan = 0;
 		try {
 			giaBan = Float.parseFloat(giaBanStr);
@@ -109,7 +124,11 @@ public class ThemHoaController extends HttpServlet {
 		Part filePart = request.getPart("hinhanh");
 		String fileName = filePart.getSubmittedFileName();
 		// Validate cho hình ảnh
-		checkValue(fileName, "Vui lòng chọn hình ảnh!", request, response);
+		if ("".equals(fileName)) {
+			request.setAttribute("err", "Vui lòng chọn hình ảnh!");
+			request.getRequestDispatcher("/muahoa/add.jsp").forward(request, response);
+			return;
+		}
 		String fileType = filePart.getContentType();
 		if (!fileType.startsWith("image")) {
 			request.setAttribute("err", "File bạn chọn không phải là file ảnh!");
@@ -121,8 +140,8 @@ public class ThemHoaController extends HttpServlet {
 		String extra = fileName.split("\\.")[1];
 		long time = System.currentTimeMillis();
 		fileName = portal + "_" + time + "." + extra;
-		
-		//Xử lý upload ảnh
+
+		// Xử lý upload ảnh
 		String appPath = request.getServletContext().getRealPath("");
 		String dirPath = appPath + DIR_UPLOAD;
 		File saveDir = new File(dirPath);
@@ -137,16 +156,9 @@ public class ThemHoaController extends HttpServlet {
 			// Nếu thêm vào db thành công thì mới upload ảnh
 			filePart.write(filePath);
 			response.sendRedirect(request.getContextPath() + "/xem-hoa?msg=1");
+			return;
 		} else {
 			request.setAttribute("err", "Xảy ra lỗi trong quá trình xử lý!");
-			request.getRequestDispatcher("/muahoa/add.jsp").forward(request, response);
-		}
-	}
-
-	protected void checkValue(String value, String msg, HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		if ("".equals(value)) {
-			request.setAttribute("err", msg);
 			request.getRequestDispatcher("/muahoa/add.jsp").forward(request, response);
 			return;
 		}
