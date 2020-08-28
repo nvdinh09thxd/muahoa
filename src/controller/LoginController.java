@@ -2,7 +2,6 @@ package controller;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,8 +24,7 @@ public class LoginController extends HttpServlet {
 			response.sendRedirect(request.getContextPath() + "/index");
 			return;
 		}
-		RequestDispatcher rd = request.getRequestDispatcher("/muahoa/login.jsp");
-		rd.forward(request, response);
+		request.getRequestDispatcher("/muahoa/login.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -41,8 +39,7 @@ public class LoginController extends HttpServlet {
 
 		if ("".equals(username) || "".equals(password)) {
 			request.setAttribute("err", err1);
-			RequestDispatcher rd = request.getRequestDispatcher("/muahoa/login.jsp");
-			rd.forward(request, response);
+			request.getRequestDispatcher("/muahoa/login.jsp").forward(request, response);
 		} else {
 			UserDao userDao = new UserDao();
 			if (userDao.getItem(username, password) != null) {
@@ -51,8 +48,7 @@ public class LoginController extends HttpServlet {
 				return;
 			}
 			request.setAttribute("err", err2);
-			RequestDispatcher rd = request.getRequestDispatcher("/muahoa/login.jsp");
-			rd.forward(request, response);
+			request.getRequestDispatcher("/muahoa/login.jsp").forward(request, response);
 		}
 	}
 }
