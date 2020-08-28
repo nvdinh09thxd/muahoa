@@ -37,6 +37,10 @@ public class XoaHoaController extends HttpServlet {
 			return;
 		}
 		Hoa itemHoa = HoaDAO.getItemHoa(idHoa);
+		if (itemHoa == null) {
+			request.getRequestDispatcher("/muahoa/PageNotFound.jsp").forward(request, response);
+			return;
+		}
 		String filePath = request.getServletContext().getRealPath("") + DIR_UPLOAD + File.separator + itemHoa.getHinhAnh();
 		File file = new File(filePath);
 		if (HoaDAO.delItem(idHoa) > 0) {

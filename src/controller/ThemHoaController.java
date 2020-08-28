@@ -149,18 +149,31 @@ public class ThemHoaController extends HttpServlet {
 			saveDir.mkdir();
 		}
 		String filePath = dirPath + File.separator + fileName;
-
-		Hoa hoa = new Hoa(id, tenHoa, soLuong, giaBan, fileName, moTa, idLoaihoa);
-		// Thêm vào cơ sở dữ liệu
-		if (HoaDAO.addItem(hoa) > 0) {
-			// Nếu thêm vào db thành công thì mới upload ảnh
-			filePart.write(filePath);
-			response.sendRedirect(request.getContextPath() + "/xem-hoa?msg=1");
-			return;
+		Hoa objHoa = HoaDAO.getItemHoa(id);
+		if (objHoa != null) {// id hoa đã tồn tại thì tăng số lượng
+			Hoa hoa = new Hoa(id, objHoa.getTenHoa(), objHoa.getSoLuong() + soLuong, objHoa.getGiaBan(),
+					objHoa.getHinhAnh(), objHoa.getMoTa(), objHoa.getId_loaihoa());
+			// Sửa trong cơ sở dữ liệu
+			if (HoaDAO.editItem(hoa) > 0) {
+				response.sendRedirect(request.getContextPath() + "/xem-hoa?msg=1");
+			} else {
+				request.setAttribute("err", "Xảy ra lỗi trong quá trình xử lý!");
+				request.getRequestDispatcher("/muahoa/add.jsp").forward(request, response);
+			}
 		} else {
-			request.setAttribute("err", "Xảy ra lỗi trong quá trình xử lý!");
-			request.getRequestDispatcher("/muahoa/add.jsp").forward(request, response);
-			return;
+			Hoa hoa = new Hoa(id, tenHoa, soLuong, giaBan, fileName, moTa, idLoaihoa);
+			// Thêm vào cơ sở dữ liệu
+			if (HoaDAO.addItem(hoa) > 0) {
+				// Nếu thêm vào db thành công thì mới upload ảnh
+				filePart.write(filePath);
+				response.sendRedirect(request.getContextPath() + "/xem-hoa?msg=1");
+				return;
+			} else {
+				request.setAttribute("err", "Xảy ra lỗi trong quá trình xử lý!");
+				request.getRequestDispatcher("/muahoa/add.jsp").forward(request, response);
+				return;
+			}
 		}
+
 	}
 }

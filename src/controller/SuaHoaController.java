@@ -41,6 +41,10 @@ public class SuaHoaController extends HttpServlet {
 			return;
 		}
 		Hoa itemHoa = HoaDAO.getItemHoa(idHoa);
+		if (itemHoa == null) {
+			request.getRequestDispatcher("/muahoa/PageNotFound.jsp").forward(request, response);
+			return;
+		}
 		request.setAttribute("itemHoa", itemHoa);
 		RequestDispatcher rd = request.getRequestDispatcher("muahoa/edit.jsp");
 		rd.forward(request, response);
@@ -69,8 +73,9 @@ public class SuaHoaController extends HttpServlet {
 
 		// Lấy ảnh cũ
 		Hoa itemHoa = HoaDAO.getItemHoa(id);
+		String oldPicture = itemHoa.getHinhAnh();
 		String filePath = request.getServletContext().getRealPath("") + DIR_UPLOAD + File.separator
-				+ itemHoa.getHinhAnh();
+				+ oldPicture;
 		File file = new File(filePath);
 
 		// validate cho hình ảnh
@@ -80,7 +85,7 @@ public class SuaHoaController extends HttpServlet {
 		if (isSelected) {
 			String fileType = filePart.getContentType();
 			if (!fileType.startsWith("image")) {
-				request.setAttribute("hinhanh", itemHoa.getHinhAnh());
+				request.setAttribute("hinhanh", oldPicture);
 				request.getRequestDispatcher("/muahoa/edit.jsp?err=1").forward(request, response);
 				return;
 			}
@@ -98,7 +103,7 @@ public class SuaHoaController extends HttpServlet {
 			}
 			filePath = dirPath + File.separator + fileName;
 		} else {
-			fileName = itemHoa.getHinhAnh();
+			fileName = oldPicture;
 		}
 
 		itemHoa = new Hoa(id, tenHoa, soLuong, giaBan, fileName, moTa, id_loaihoa);
@@ -112,7 +117,7 @@ public class SuaHoaController extends HttpServlet {
 			}
 			response.sendRedirect(request.getContextPath() + "/xem-hoa?msg=2");
 		} else {
-			request.setAttribute("hinhanh", itemHoa.getHinhAnh());
+			request.setAttribute("hinhanh", oldPicture);
 			request.getRequestDispatcher("/muahoa/edit.jsp?err=0").forward(request, response);
 		}
 	}
