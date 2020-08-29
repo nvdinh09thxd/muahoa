@@ -21,23 +21,15 @@
 			<div class="module-body">
 				<%
 					int id = 0;
-					if(request.getParameter("id") != null){
-						id = Integer.parseInt(request.getParameter("id"));
-					}
-					String tenHoa = request.getParameter("ten");
 					int id_loaiHoa = 0;
-					if(request.getParameter("loaihoa") != null){
-						id_loaiHoa = Integer.parseInt(request.getParameter("loaihoa"));
-					}
 					int soLuong = 0;
-					if(request.getParameter("soluong") != null){
-						soLuong = Integer.parseInt(request.getParameter("soluong"));
-					}
 					float giaBan = 0;
-					if(request.getParameter("giaban") != null){
-						giaBan = Float.parseFloat(request.getParameter("giaban"));
-					}
+					if(request.getParameter("id") != null) id = Integer.parseInt(request.getParameter("id"));
+					if(request.getParameter("loaihoa") != null)	id_loaiHoa = Integer.parseInt(request.getParameter("loaihoa"));
+					if(request.getParameter("soluong") != null)	soLuong = Integer.parseInt(request.getParameter("soluong"));
+					if(request.getParameter("giaban") != null) giaBan = Float.parseFloat(request.getParameter("giaban"));
 					String hinhAnh = (String) request.getAttribute("hinhanh");
+					String tenHoa = request.getParameter("ten");
 					String moTa = request.getParameter("mota");
 					Hoa itemHoa = (Hoa) request.getAttribute("itemHoa");
 					if(itemHoa != null){

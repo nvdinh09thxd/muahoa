@@ -33,12 +33,12 @@ public class XoaHoaController extends HttpServlet {
 		try {
 			idHoa = Integer.parseInt(request.getParameter("id"));
 		} catch (NumberFormatException e) {
-			response.sendRedirect(request.getContextPath() + "/muahoa/PageNotFound.jsp");
+			response.sendRedirect(request.getContextPath() + "/404");
 			return;
 		}
 		Hoa itemHoa = HoaDAO.getItemHoa(idHoa);
 		if (itemHoa == null) {
-			request.getRequestDispatcher("/muahoa/PageNotFound.jsp").forward(request, response);
+			response.sendRedirect(request.getContextPath() + "/404");
 			return;
 		}
 		String filePath = request.getServletContext().getRealPath("") + DIR_UPLOAD + File.separator + itemHoa.getHinhAnh();

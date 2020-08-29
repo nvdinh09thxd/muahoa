@@ -53,6 +53,14 @@
     <url-pattern>/xem-hoa</url-pattern>
   </servlet-mapping>
   <servlet>
+    <servlet-name>PageNotFoundController</servlet-name>
+    <servlet-class>controller.PageNotFoundController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PageNotFoundController</servlet-name>
+    <url-pattern>/404</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>LoginController</servlet-name>
     <servlet-class>controller.LoginController</servlet-class>
   </servlet>
